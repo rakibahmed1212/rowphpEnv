@@ -95,6 +95,7 @@ $tableContent = new ProcessDataContainer();
         $("#removeTodo").click(function (e) {
             $("#todo_data").empty();
             remove('status', 0);
+            getData();
         });
         getData();
     });
