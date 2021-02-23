@@ -4,7 +4,7 @@ use App\ProcessDataContainer;
 
 require_once __DIR__ . './../vendor/autoload.php';
 $tableContent = new ProcessDataContainer();
-if ($_GET["status"] == 2) {
+if (isset($_GET["status"])) {
     $data=$tableContent->getData($_GET["status"]);
     echo json_encode( array (
         'data' => $data,

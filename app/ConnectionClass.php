@@ -64,15 +64,15 @@ class ConnectionClass
         $sql = "INSERT INTO ".$table." ".$columns." VALUES ".$values;
         $sql = $this->conn->query($sql);
         if($sql == true){
-            return $sql;
+            return $this->conn->insert_id;
         }else{
             return false;
         }
     }
-    function deleteData($table, $filter){
+    function deleteData($table, $where){
 
         $this->connect();
-        $sql =  "DELETE FROM ".$table." ".$filter;
+        $sql =  "DELETE FROM ".$table." WHERE ".$where;
         $sql = $this->conn->query($sql);
         if($sql == true){
             return true;

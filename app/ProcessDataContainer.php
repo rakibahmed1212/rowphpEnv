@@ -11,25 +11,32 @@ class ProcessDataContainer
         return $connection->createData('todo_data', '(name,status,created_at,updated_at)', '("' . $data . '",1 ,NOW() , NOW() )');
     }
 
-    public function editData($id, $data)
+    public function editData($id)
     {
         return $this;
     }
 
-    public function deleteData($id)
+    public function deleteData($id, $doneData = 'aceNaki')
     {
-        return $this;
+        $connection = new ConnectionClass();
+        if ($doneData!='aceNaki') {
+            return $connection->deleteData('todo_data', 'status=' . $doneData);
+        } else {
+            return $connection->deleteData('todo_data', 'id=' . $id);
+        }
     }
 
     public function getData($status)
     {
         $connection = new ConnectionClass();
+        $data = [];
+        $datas = null;
         if ($status == 2) {
             $datas = $connection->getData('todo_data', 'id is not null');
+
         } else {
-            $datas = $connection->getSingleData('todo_data', 'status='.$status);
+            $datas = $connection->getData('todo_data', 'status=' . $status);
         }
-        $data = [];
         foreach ($datas as $key => $row) {
             $data[$key]['id'] = $row[0];
             $data[$key]['name'] = $row[1];
