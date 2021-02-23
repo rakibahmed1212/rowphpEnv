@@ -107,8 +107,12 @@ $tableContent = new ProcessDataContainer();
     function doneEdit(obj, data) {
         $('#showText_' + data).css('display', 'block');
         $('#showEdit_' + data).css('display', 'none');
+        update(data, -1, $('#showEdit_' + data).val());
+    }
+
+    function update(data, status = -1, value = false) {
         $.ajax({
-            url: 'processData/editData.php?id=' + data,
+            url: 'processData/editData.php?id=' + data + '&status=' + status + '&value=' + value,
             type: 'GET',
             success: function (response) {
                 // getData();
@@ -132,10 +136,12 @@ $tableContent = new ProcessDataContainer();
     }
 
     function checkComplate(obj, data) {
-        if (!$("#check_box_"+data).is(":checked")) {
-            $("#showText_"+data).css('text-decoration','none');
+        if (!$("#check_box_" + data).is(":checked")) {
+            $("#showText_" + data).css('text-decoration', 'none');
+            update(data, 1);
         } else {
-            $("#showText_"+data).css('text-decoration','line-through');
+            $("#showText_" + data).css('text-decoration', 'line-through');
+            update(data, 0);
         }
     }
 
@@ -178,7 +184,7 @@ $tableContent = new ProcessDataContainer();
                         }
                         $('#todo_data').append('<tr id="row_data_' + response.data[i].id + '"><td><div class="row"><div class="col-sm-12">' +
                             '<span class="form-control" id="showText_' + response.data[i].id + '" style="display: block;' + stylede + '" ondblclick="editData(this,' + response.data[i].id + ')">' +
-                            '<input type="checkbox"' + checkedThakbe + ' class="check_box" onclick="checkComplate(this,' + response.data[i].id + ')" id="check_box_' + response.data[i].id  + '" value="' + response.data[i].id + '" class="checkbox_class"> ' + response.data[i].name + '</span>' +
+                            '<input type="checkbox"' + checkedThakbe + ' class="check_box" onclick="checkComplate(this,' + response.data[i].id + ')" id="check_box_' + response.data[i].id + '" value="' + response.data[i].id + '" class="checkbox_class"> ' + response.data[i].name + '</span>' +
                             '<input type="text" class="form-control" style="display: none;" id="showEdit_' + response.data[i].id + '" value="' + response.data[i].name + '" onblur="doneEdit(this,' + response.data[i].id + ')"></div></div></td>' +
                             '<td><button onclick="deletedata(this,' + response.data[i].id + ')" type="button"class="btn btn-danger btn-sm">' +
                             '<i class="fa fa-trash-o "></i> Remove</button></td></tr>');

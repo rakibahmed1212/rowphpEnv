@@ -11,9 +11,15 @@ class ProcessDataContainer
         return $connection->createData('todo_data', '(name,status,created_at,updated_at)', '("' . $data . '",1 ,NOW() , NOW() )');
     }
 
-    public function editData($id)
+    public function editData($id,$status=-1,$value=null)
     {
-        return $this;
+        $connection = new ConnectionClass();
+        if($status>=0){
+            return $connection->updateData('todo_data', 'status=' . $status,'id=' . $id);
+        }
+        if($value){
+            return $connection->updateData('todo_data', 'name="' . $value.'"','id=' . $id);
+        }
     }
 
     public function deleteData($id, $doneData = 'aceNaki')
